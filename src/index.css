@@ -1,0 +1,84 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+* {
+  padding: 0;
+  margin-top: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background: #222831;
+}
+
+.App {
+  background: #393e46;
+  padding: 1em 3em;
+  box-shadow: 4px 3px #eeeeee;
+  color: #eeeeee;
+}
+
+#setting {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  text-align: center;
+  gap: 0.2em;
+}
+#setting h2 {
+  font-size: 20px;
+}
+
+#type {
+  grid-area: 1/1/2/3;
+}
+
+#break span,
+#session span {
+  margin: 0 0.5em;
+  font-size: 20px;
+  font-weight: bolder;
+}
+
+#timer {
+  margin-top: 2em;
+  border-radius: 50px;
+  text-align: center;
+}
+
+.div {
+  border: 2px solid gray;
+  border-radius: 50px;
+  padding-bottom: 0;
+}
+
+#time-left {
+  font-size: 40px;
+  font-weight: bolder;
+}
+
+#timer span {
+  display: inline-block;
+  padding: 0.7em 1.5em;
+}
