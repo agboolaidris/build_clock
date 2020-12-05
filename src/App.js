@@ -12,8 +12,10 @@ function App() {
   isPlaying:false
 
   })
-  const [clock_count, Setclock_count] = useState(state.session_count*60);
+
+  const [clock_count, Setclock_count] = useState(25*60);
   const [interval, setinterval] = useState(undefined)
+
   
   const break_increment = () => {
     setstate({
@@ -46,10 +48,10 @@ function App() {
       });
     }
   };
+  
 
  //handle clock_count value
-
-  const handle_clock_count = ()=>{
+ const handle_clock_count = ()=>{
     Setclock_count(prev=>prev - 1)
     
  }
@@ -67,7 +69,7 @@ function App() {
 
   // handle the pause and play button
   const pause_play = ()=>{
-    
+      Setclock_count(state.session_count * 60)
       const {isPlaying} = state;
       if(isPlaying){
        setstate({
@@ -91,7 +93,7 @@ function App() {
 //handle reset button
 
 const reset = ()=>{
-  Setclock_count(state.session_count*60)
+  Setclock_count(25*60)
     clearInterval(interval)
     setstate({
       ...state,
@@ -107,7 +109,7 @@ if(clock_count===0){
     current_timer:state.current_timer==='Session' ? 'Break' : 'Session',
   })
   
-  Setclock_count(state.current_timer==='Session' ? state.session_count*60 : state.break_count*60)
+  Setclock_count(state.current_timer !=='Session' ? state.session_count*60 : state.break_count*60)
   console.log(state.current_timer)
 }
 }
