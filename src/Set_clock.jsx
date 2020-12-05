@@ -1,28 +1,40 @@
 import React from "react";
 
-function Set_clock() {
+function Set_clock({
+  break_increment,
+  break_count,
+  break_decrement,
+  session_count,
+  session_increment,
+  session_decrement,
+}) {
   return (
     <div id="setting">
       <div id="type">
         <h2>Pamodoro Clock's</h2>
       </div>
+
       <div id="break">
         <h2 id="break-label">Break Length</h2>
-        <span id="break-decrement">
+
+        <span id="break-decrement" onClick={break_decrement}>
           <i className="fa fa-arrow-down" aria-hidden="true"></i>
         </span>
-        <span id="break-length">5</span>
-        <span id="break-increment">
+
+        <i id="break-length">{break_count}</i>
+
+        <span id="break-increment" onClick={break_increment}>
           <i className="fa fa-arrow-up" aria-hidden="true"></i>
         </span>
       </div>
+
       <div id="session">
         <h2 id="session-label">Session Length</h2>
-        <span id="session-decrement">
+        <span id="session-decrement" onClick={session_decrement}>
           <i className="fa fa-arrow-down" aria-hidden="true"></i>
         </span>
-        <span id="session-length">25</span>
-        <span id="session-increment">
+        <i id="session-length">{session_count}</i>
+        <span id="session-increment" onClick={session_increment}>
           <i className="fa fa-arrow-up" aria-hidden="true"></i>
         </span>
       </div>

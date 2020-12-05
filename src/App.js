@@ -1,13 +1,101 @@
+import React,{useState, useEffect} from 'react'
 const { default: Display_clock } = require("./Display_clock");
 const { default: Set_clock } = require("./Set_clock");
 
 
 function App() {
+  const [state, setstate] = useState({
+    break_count:5,
+  session_count:25,
+  clock_count:25*60,
+  current_timer:'Session',
+  isPlaying:false
+
+  })
+  const [current_timer, setcurrent_timer] = useState(25*60);
+  const [interval, setinterval] = useState(undefined)
+  
+  const break_increment = () => {
+    setstate({
+      ...state,
+      break_count: state.break_count + 1,
+    });
+  };
+  const break_decrement = () => {
+    if(state.break_count >= 1){
+      setstate({
+        ...state,
+        break_count: state.break_count - 1,
+      });
+    }
+    
+    
+  };
+  const session_increment = () => {
+    setstate({
+      ...state,
+      session_count: state.session_count + 1,
+    });
+  };
+  const session_decrement = () => {
+    
+    if(state.session_count >= 1){
+      setstate({
+        ...state,
+        session_count: state.session_count - 1,
+      });
+    }
+  };
+
+ 
+
+  const handle_clock_count = ()=>{
+    setcurrent_timer(prev=>prev - 1)
+  }
+
+  const pause_play = ()=>{
+      const {isPlaying} = state;
+      if(isPlaying){
+       setstate({
+        ...state,
+         isPlaying:false
+       })
+       clearInterval(interval)
+
+         
+        }else{
+          setinterval(setInterval(handle_clock_count,1000))
+          setstate({
+         ...state,
+          isPlaying:true
+        })
+      }
+
+  }
+  
+
+  const convertToTime = (num)=>{
+    const min = Math.floor(num/60);
+    let sec = num % 60;
+    sec= sec < 10 ? `0${sec}` : sec;
+
+    return `${min}:${sec}`
+} 
   return (
     <div className="App">
      
-    <Set_clock/>
-    <Display_clock />
+    <Set_clock break_count={state.break_count}
+     session_count={state.session_count}
+     break_count={state.break_count} 
+     break_increme nt={break_increment}
+     break_decrement={break_decrement}
+     session_increment={session_increment}
+     session_decrement={session_decrement}
+     />
+    <Display_clock convertToTime={convertToTime} 
+    clock_count={current_timer} 
+    pause_play={pause_play}
+    isPlaying={state.isPlaying} />
     </div>
   );
 }

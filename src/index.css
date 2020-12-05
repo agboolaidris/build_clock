@@ -34,10 +34,13 @@ body {
 }
 
 .App {
-  background: #393e46;
   padding: 1em 3em;
-  box-shadow: 4px 3px #eeeeee;
   color: #eeeeee;
+}
+@media only screen and (max-width: 500px) {
+  .App {
+    padding: 0.5em;
+  }
 }
 
 #setting {
@@ -53,32 +56,33 @@ body {
 #type {
   grid-area: 1/1/2/3;
 }
+span {
+  cursor: pointer;
+}
 
 #break span,
 #session span {
   margin: 0 0.5em;
   font-size: 20px;
   font-weight: bolder;
+  padding: 0.2em 0.7em;
+  border: 2px solid gray;
 }
 
 #timer {
-  margin-top: 2em;
-  border-radius: 50px;
   text-align: center;
-}
-
-.div {
   border: 2px solid gray;
-  border-radius: 50px;
-  padding-bottom: 0;
+  margin-top: 2em;
+  padding: 0.5em;
 }
 
 #time-left {
-  font-size: 40px;
-  font-weight: bolder;
+  font-size: 30px;
 }
 
 #timer span {
   display: inline-block;
-  padding: 0.7em 1.5em;
+  margin: 5px 1em;
+  border: 2px solid gray;
+  padding: 0.5em 1em;
 }
