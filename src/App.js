@@ -5,14 +5,14 @@ const { default: Set_clock } = require("./Set_clock");
 
 function App() {
   const [state, setstate] = useState({
-    break_count:5,
-  session_count:25,
+    break_count:0.25,
+  session_count:0.5,
   clock_count:25*60,
   current_timer:'Session',
   isPlaying:false
 
   })
-  const [current_timer, setcurrent_timer] = useState(25*60);
+  const [clock_count, Setclock_count] = useState(state.session_count*60);
   const [interval, setinterval] = useState(undefined)
   
   const break_increment = () => {
@@ -47,13 +47,27 @@ function App() {
     }
   };
 
- 
+ //handle clock_count value
 
   const handle_clock_count = ()=>{
-    setcurrent_timer(prev=>prev - 1)
-  }
+    Setclock_count(prev=>prev - 1)
+    
+ }
+  
+  
+  
+  //convert the clock-count value to real time
+  const convertToTime = (num)=>{
+    const min = Math.floor(num/60);
+    let sec = num % 60;
+    sec= sec < 10 ? `0${sec}` : sec;
 
+    return `${min}:${sec}`
+} 
+
+  // handle the pause and play button
   const pause_play = ()=>{
+    
       const {isPlaying} = state;
       if(isPlaying){
        setstate({
@@ -61,10 +75,11 @@ function App() {
          isPlaying:false
        })
        clearInterval(interval)
-
-         
-        }else{
-          setinterval(setInterval(handle_clock_count,1000))
+     }else{
+      
+          setinterval(setInterval(()=>{
+            handle_clock_count()
+          },1000))
           setstate({
          ...state,
           isPlaying:true
@@ -73,29 +88,53 @@ function App() {
 
   }
   
+//handle reset button
 
-  const convertToTime = (num)=>{
-    const min = Math.floor(num/60);
-    let sec = num % 60;
-    sec= sec < 10 ? `0${sec}` : sec;
+const reset = ()=>{
+  Setclock_count(state.session_count*60)
+    clearInterval(interval)
+    setstate({
+      ...state,
+      isPlaying:false
+    })
+  
+}
 
-    return `${min}:${sec}`
-} 
+const app = ()=>{
+if(clock_count===0){
+  setstate({
+    ...state,
+    current_timer:state.current_timer==='Session' ? 'Break' : 'Session',
+  })
+  
+  Setclock_count(state.current_timer==='Session' ? state.session_count*60 : state.break_count*60)
+  console.log(state.current_timer)
+}
+}
+
+
+useEffect(() => {
+  app()
+}, [pause_play])
+
+
   return (
     <div className="App">
      
     <Set_clock break_count={state.break_count}
      session_count={state.session_count}
      break_count={state.break_count} 
-     break_increme nt={break_increment}
+     break_increment={break_increment}
      break_decrement={break_decrement}
      session_increment={session_increment}
      session_decrement={session_decrement}
      />
     <Display_clock convertToTime={convertToTime} 
-    clock_count={current_timer} 
+    clock_count={clock_count} 
     pause_play={pause_play}
-    isPlaying={state.isPlaying} />
+    isPlaying={state.isPlaying}
+    reset={reset}
+    current_timer={state.current_timer} />
     </div>
   );
 }
