@@ -13,7 +13,8 @@ function App() {
 
   
   const [clock_count, Setclock_count] = useState( 25*60);
-  const [interval, setinterval] = useState(undefined)
+  const [interval, setinterval] = useState(undefined);
+  const [click, setclick] = useState(true)
 
   // BREAK AND SESSION INCREMENT AND DECREMENNT FUNCTION
   const break_increment = () => {
@@ -62,7 +63,9 @@ function App() {
  }
 
   
-  
+  useEffect(() => {
+  Setclock_count(state.session_count*60)
+  }, [state.session_count])
   
   // CONVERTION THE CLOCK COUNT VALUE TO  MM:SS FUNCTION
   const convertToTime = (num)=>{
@@ -84,6 +87,7 @@ function App() {
          isPlaying:false
        })
        clearInterval(interval)
+       setclick(true)
      }else{
     
           setinterval(setInterval(()=>{
@@ -93,6 +97,7 @@ function App() {
          ...state,
           isPlaying:true
         })
+        setclick(false)
       }
 
   }
@@ -133,8 +138,6 @@ if(clock_count < 0){
   })
   
   Setclock_count(state.current_timer !=='Session' ? state.session_count*60 : state.break_count*60)
-  console.log(state.current_timer)
-
   playSound()
 }
 }
@@ -156,6 +159,7 @@ useEffect(() => {
      break_decrement={break_decrement}
      session_increment={session_increment}
      session_decrement={session_decrement}
+     click={click}
      />
     <Display_clock convertToTime={convertToTime} 
     clock_count={clock_count} 
