@@ -36,12 +36,7 @@ body {
 .App {
   padding: 1em 3em;
   color: #eeeeee;
-  max-width: 500px;
-}
-@media only screen and (max-width: 500px) {
-  .App {
-    padding: 0.5em;
-  }
+  width: 500px;
 }
 
 #setting {
@@ -57,9 +52,6 @@ body {
 #type {
   grid-area: 1/1/2/3;
 }
-span {
-  cursor: pointer;
-}
 
 #break span,
 #session span {
@@ -68,11 +60,17 @@ span {
   font-weight: bolder;
   padding: 0.2em 0.7em;
   border: 2px solid gray;
+  cursor: pointer;
+}
+
+span:hover {
+  background: darkgray;
 }
 
 #timer {
   text-align: center;
   border: 2px solid gray;
+  border-radius: 20px;
   margin-top: 2em;
   padding: 0.5em;
 }
@@ -85,5 +83,19 @@ span {
   display: inline-block;
   margin: 5px 1em;
   border: 2px solid gray;
+  border-radius: 30px;
   padding: 0.5em 1em;
+}
+@media only screen and (max-width: 500px) {
+  .App {
+    padding: 0.5em;
+    width: 100%;
+  }
+  #setting {
+    gap: 0;
+  }
+  #break span,
+  #session span {
+    padding: 4px 7px;
+  }
 }

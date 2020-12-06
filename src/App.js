@@ -5,18 +5,17 @@ const { default: Set_clock } = require("./Set_clock");
 
 function App() {
   const [state, setstate] = useState({
-    break_count:0.2,
-  session_count:0.4,
+    break_count:5,
+  session_count:25,
   current_timer:'Session',
   isPlaying:false
+})
 
-  })
-  const clock = state.session_count
   
-  const [clock_count, Setclock_count] = useState(clock*60);
+  const [clock_count, Setclock_count] = useState( 25*60);
   const [interval, setinterval] = useState(undefined)
 
-  
+  // BREAK AND SESSION INCREMENT AND DECREMENNT FUNCTION
   const break_increment = () => {
     if(state.break_count <60){
       setstate({
@@ -56,7 +55,7 @@ function App() {
   };
 
   
-
+// CLOCK COUNT FUNCTION
  const handle_clock_count = ()=>{
     Setclock_count(prev=>prev - 1)
     
@@ -65,7 +64,7 @@ function App() {
   
   
   
-  //convert the clock-count value to real time
+  // CONVERTION THE CLOCK COUNT VALUE TO  MM:SS FUNCTION
   const convertToTime = (num)=>{
     let min = Math.floor(num/60);
     min= min < 10 ? `0${min}` : min
@@ -75,7 +74,7 @@ function App() {
     return `${min}:${sec}`
 } 
 
-  // handle the pause and play button
+  //HANDLE THE PAUSE AND PLAY BUTTON
   const pause_play = ()=>{
       
       const {isPlaying} = state;
@@ -99,7 +98,7 @@ function App() {
   }
   
    
-//handle reset button
+// HANDLE RESET BUTTON
 
 const reset = ()=>{
   Setclock_count(25*60)
@@ -117,7 +116,16 @@ const reset = ()=>{
   
 }
 
-const app = ()=>{
+// SOUND PLAY FUNCTION
+const playSound = ()=>{
+  const audio = document.getElementById('beep')
+  audio.play()
+
+}
+
+
+// FUNCTION THAT HANDLE SOUND WHEN CLOCK COUNT IS 00:00
+const study_clockCount = ()=>{
 if(clock_count < 0){
   setstate({
     ...state,
@@ -133,19 +141,11 @@ if(clock_count < 0){
 
 
 useEffect(() => {
-
-  console.log(state.session_count)
-  app()
+  study_clockCount()
 }, [pause_play])
 
 
-// sound function
 
-const playSound = ()=>{
-  const audio = document.getElementById('beep')
-  audio.play()
-
-}
   return (
     <div className="App">
      
