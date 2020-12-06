@@ -11,8 +11,9 @@ function App() {
   isPlaying:false
 
   })
-
-  const [clock_count, Setclock_count] = useState(state.session_count*60);
+  const clock = state.session_count
+  
+  const [clock_count, Setclock_count] = useState(clock*60);
   const [interval, setinterval] = useState(undefined)
 
   
@@ -54,9 +55,6 @@ function App() {
     }
   };
 
-  // useEffect(() => {
-  //   Setclock_count(state.session_count *60)
-  // }, [session_increment,session_decrement])
   
 
  const handle_clock_count = ()=>{
@@ -69,7 +67,8 @@ function App() {
   
   //convert the clock-count value to real time
   const convertToTime = (num)=>{
-    const min = Math.floor(num/60);
+    let min = Math.floor(num/60);
+    min= min < 10 ? `0${min}` : min
     let sec = num % 60;
     sec= sec < 10 ? `0${sec}` : sec;
 
@@ -78,7 +77,7 @@ function App() {
 
   // handle the pause and play button
   const pause_play = ()=>{
-      Setclock_count(state.session_count * 60)
+      
       const {isPlaying} = state;
       if(isPlaying){
        setstate({
@@ -87,7 +86,7 @@ function App() {
        })
        clearInterval(interval)
      }else{
-      
+    
           setinterval(setInterval(()=>{
             handle_clock_count()
           },1000))
@@ -99,6 +98,7 @@ function App() {
 
   }
   
+   
 //handle reset button
 
 const reset = ()=>{
@@ -106,13 +106,19 @@ const reset = ()=>{
     clearInterval(interval)
     setstate({
       ...state,
+      break_count:5,
+      session_count:25,
       isPlaying:false
     })
+    const audio = document.getElementById('beep')
+  audio.pause()  
+ audio.currentTime = 0
+
   
 }
 
 const app = ()=>{
-if(clock_count===0){
+if(clock_count < 0){
   setstate({
     ...state,
     current_timer:state.current_timer==='Session' ? 'Break' : 'Session',
@@ -127,6 +133,8 @@ if(clock_count===0){
 
 
 useEffect(() => {
+
+  console.log(state.session_count)
   app()
 }, [pause_play])
 
