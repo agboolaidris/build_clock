@@ -5,26 +5,28 @@ const { default: Set_clock } = require("./Set_clock");
 
 function App() {
   const [state, setstate] = useState({
-    break_count:0.25,
-  session_count:0.5,
-  clock_count:25*60,
+    break_count:0.2,
+  session_count:0.4,
   current_timer:'Session',
   isPlaying:false
 
   })
 
-  const [clock_count, Setclock_count] = useState(25*60);
+  const [clock_count, Setclock_count] = useState(state.session_count*60);
   const [interval, setinterval] = useState(undefined)
 
   
   const break_increment = () => {
-    setstate({
-      ...state,
-      break_count: state.break_count + 1,
-    });
+    if(state.break_count <60){
+      setstate({
+        ...state,
+        break_count: state.break_count + 1,
+      });
+    }
+  
   };
   const break_decrement = () => {
-    if(state.break_count >= 1){
+    if(state.break_count > 1){
       setstate({
         ...state,
         break_count: state.break_count - 1,
@@ -34,27 +36,34 @@ function App() {
     
   };
   const session_increment = () => {
-    setstate({
-      ...state,
-      session_count: state.session_count + 1,
-    });
+    if(state.session_count < 60){
+      setstate({
+        ...state,
+        session_count: state.session_count + 1,
+      });
+    }
+
   };
   const session_decrement = () => {
     
-    if(state.session_count >= 1){
+    if(state.session_count > 1){
       setstate({
         ...state,
         session_count: state.session_count - 1,
       });
     }
   };
+
+  // useEffect(() => {
+  //   Setclock_count(state.session_count *60)
+  // }, [session_increment,session_decrement])
   
 
- //handle clock_count value
  const handle_clock_count = ()=>{
     Setclock_count(prev=>prev - 1)
     
  }
+
   
   
   
@@ -111,6 +120,8 @@ if(clock_count===0){
   
   Setclock_count(state.current_timer !=='Session' ? state.session_count*60 : state.break_count*60)
   console.log(state.current_timer)
+
+  playSound()
 }
 }
 
@@ -120,6 +131,13 @@ useEffect(() => {
 }, [pause_play])
 
 
+// sound function
+
+const playSound = ()=>{
+  const audio = document.getElementById('beep')
+  audio.play()
+
+}
   return (
     <div className="App">
      
@@ -137,6 +155,9 @@ useEffect(() => {
     isPlaying={state.isPlaying}
     reset={reset}
     current_timer={state.current_timer} />
+    <audio 
+    id='beep'
+    src='https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav'/>
     </div>
   );
 }
